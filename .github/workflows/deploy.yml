@@ -2,7 +2,6 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -16,6 +15,10 @@ concurrency:
 
 jobs:
   build:
+    # Deploy whichever branch is the repository default, rather than hard-coding
+    # a name: this repo's default is the branch the first push created, and this
+    # keeps working unchanged if it is later renamed to main.
+    if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

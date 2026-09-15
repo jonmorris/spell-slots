@@ -6,7 +6,10 @@ import { existsSync } from 'node:fs'
 import { chromium } from 'playwright'
 
 const PORT = 4179
-const ORIGIN = `http://localhost:${PORT}/`
+// Honour BASE_PATH so a subpath deploy (GitHub Pages serves a project site from
+// /<repo>/) can be verified exactly as it will be served.
+const BASE = process.env.BASE_PATH ?? '/'
+const ORIGIN = `http://localhost:${PORT}${BASE}`
 const CHROMIUM = [
   process.env.CHROMIUM_PATH,
   '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',

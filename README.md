@@ -60,13 +60,23 @@ npm run icons     # regenerate the app icons
 preview server and uses Playwright to check the things unit tests can't: that
 the service worker takes control, that the app renders with the network
 switched off, and that leaving it for two days rolls the day over correctly.
+Set `BASE_PATH` to verify a subpath build (see Deploying).
 
 ## Deploying
 
-`.github/workflows/deploy.yml` publishes to GitHub Pages on every push to
-`main`. Enable it once under **Settings → Pages → Source → GitHub Actions**.
+`.github/workflows/deploy.yml` publishes to GitHub Pages on every push to the
+repository's **default branch** — whatever it happens to be called, so renaming
+it later needs no change here. Enable it once under **Settings → Pages →
+Source → GitHub Actions**.
+
 The workflow sets `BASE_PATH` to the repository name, since a project Pages
 site is served from a subdirectory and the service worker scope has to match.
+To check a subpath build locally, exactly as Pages will serve it:
+
+```sh
+BASE_PATH=/spell-slots/ npm run build
+BASE_PATH=/spell-slots/ npm run verify
+```
 
 Anywhere that serves static files over HTTPS works just as well — build with
 `npm run build` and upload `dist/`. HTTPS is required: browsers will not
