@@ -35,35 +35,45 @@ export const TIERS: Tier[] = [1, 2, 3, 4]
 
 export const TIER_INFO: Record<
   Tier,
-  { name: string; short: string; blurb: string; hint: string }
+  { name: string; short: string; rune: string; tiny: string; blurb: string; hint: string }
 > = {
   0: {
     name: 'Cantrip',
     short: 'Cantrip',
+    rune: 'C',
+    tiny: 'free',
     blurb: 'Free, unlimited, low effort',
     hint: 'A few minutes. Water the plants, reply to that text, ten push-ups.',
   },
   1: {
     name: 'First-tier spell',
     short: '1st',
+    rune: 'I',
+    tiny: 'small',
     blurb: 'A small, focused push',
     hint: 'Fifteen to thirty minutes of real attention.',
   },
   2: {
     name: 'Second-tier spell',
     short: '2nd',
+    rune: 'II',
+    tiny: 'an hour',
     blurb: 'A solid block of work',
     hint: 'About an hour. Enough to finish something small or start something real.',
   },
   3: {
     name: 'Third-tier spell',
     short: '3rd',
+    rune: 'III',
+    tiny: 'deep',
     blurb: 'Deep work',
     hint: 'Two hours or more, uninterrupted. Costly. Choose it on purpose.',
   },
   4: {
     name: 'Fourth-tier spell',
     short: '4th',
+    rune: 'IV',
+    tiny: 'the one',
     blurb: "The day's centrepiece",
     hint: 'The one thing that would make today matter. Nothing else competes with it.',
   },

@@ -97,6 +97,11 @@ export function openSlots(day: DayRecord, tier: Tier): number {
   return Math.max(0, day.slots[tier] - preparedInTier(day, tier).length)
 }
 
+/** Slots across every tier with nothing prepared in them. */
+export function openSlotsTotal(day: DayRecord): number {
+  return TIERS.reduce<number>((sum, tier) => sum + openSlots(day, tier), 0)
+}
+
 export function slotsSpent(day: DayRecord): number {
   return TIERS.reduce<number>(
     (sum, tier) => sum + preparedInTier(day, tier).filter((p) => p.done).length,
