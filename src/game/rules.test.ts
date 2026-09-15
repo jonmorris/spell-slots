@@ -10,7 +10,7 @@ import {
   rollOverIfNeeded,
   totalXp,
 } from './state'
-import { hydrate } from './storage'
+import { hydrate, looksLikeSave } from './storage'
 import type { GameState, Tier } from './types'
 
 const AT = new Date(2026, 0, 10, 9, 0, 0).getTime()
@@ -306,6 +306,27 @@ describe('storage', () => {
     const restored = hydrate(JSON.parse(JSON.stringify(s)), AT)
     expect(restored.today.prepared[0].name).toBe('keep me')
     expect(totalXp(restored)).toBe(totalXp(s))
+  })
+
+  it('rejects files that are not saves, rather than replacing the game', () => {
+    expect(looksLikeSave(null)).toBe(false)
+    expect(looksLikeSave({ hello: 'world' })).toBe(false)
+    expect(looksLikeSave([1, 2, 3])).toBe(false)
+    expect(looksLikeSave({ spells: [], today: { date: '2026-01-10' } })).toBe(true)
+    expect(looksLikeSave(bare())).toBe(true)
+  })
+
+  it('gives a spell an id and a sane tier when the file has neither', () => {
+    const s = bare()
+    const damaged = {
+      ...s,
+      spells: [{ name: 'no id', tier: 99 }, { tier: 1 }],
+    }
+    const repaired = hydrate(damaged, AT)
+    expect(repaired.spells[0].id).toBeTruthy()
+    expect(repaired.spells[0].tier).toBe(1)
+    expect(repaired.spells[1].name).toBe('Unnamed spell')
+    expect(new Set(repaired.spells.map((sp) => sp.id)).size).toBe(2)
   })
 
   it('repairs a save that is missing fields', () => {
